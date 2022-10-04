@@ -21,38 +21,23 @@ class App extends Component {
         title: 'O título 3',
         body: 'O body 3'
       }
-    ],
-    counter: 0
+    ]
   };
 
-  timeoutUpdate = null;
-
   componentDidMount() {
-    this.handleTimeout();
   }
 
   componentDidUpdate() {
-    this.handleTimeout();
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timeoutUpdate);
-  }
-
-  handleTimeout() {
-    const { posts, counter } = this.state;
-    posts[0].title = 'O titulo mudouuuu again';
-
-    this.timeoutUpdate = setTimeout(() => {
-      this.setState({ posts, counter: counter + 1 });
-    }, 1250);
+  
   }
 
   render () {
-    const { posts, counter } = this.state;
+    const { posts } = this.state;
     return (
           <div className="App">
-            <h2>{counter}</h2>
             {posts.map(post => (
               <div key={post.id}>
                 <h3> {post.title} </h3>
@@ -63,27 +48,5 @@ class App extends Component {
         );
   }
 }
-
-// stateless component
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
 
 export default App;
