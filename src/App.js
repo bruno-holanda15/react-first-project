@@ -5,33 +5,13 @@ import { Component } from 'react';
 //component de classe
 class App extends Component {
   state = {
-    posts: [
-      {
-        id: 1,
-        title: 'O título 1',
-        body: 'O body 1'
-      },
-      {
-        id: 2,
-        title: 'O título 2',
-        body: 'O body 2'
-      },
-      {
-        id: 3,
-        title: 'O título 3',
-        body: 'O body 3'
-      }
-    ]
+    posts: []
   };
 
   componentDidMount() {
-  }
-
-  componentDidUpdate() {
-  }
-
-  componentWillUnmount() {
-  
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(response => response.json())
+      .then(posts => this.setState({posts}));
   }
 
   render () {
