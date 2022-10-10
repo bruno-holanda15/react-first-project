@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { Component } from 'react';
+import { PostCard } from './components/PostCard';
 
 //component de classe
 class App extends Component {
@@ -34,14 +35,15 @@ class App extends Component {
           <section className="container">
               <div className="posts">
                 {posts.map(post => (
-                  <div className='post'>
-                      <img src={post.cover} alt={post.title}/>
-                      <div key={post.id} className="post-content">
-                        <h3> {post.title} </h3>
-                        <p> {post.body} </p>
-                      </div>
-                  </div>
-                  ))}
+                  // passando atributos do state como props dentro do component
+                  <PostCard
+                    key={post.id}
+                    title={post.title}
+                    body={post.body}
+                    id={post.id}
+                    cover={post.cover}
+                  />
+                ))}
               </div>
           </section>
         );
