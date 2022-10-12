@@ -1,10 +1,16 @@
+import './styles.css';
+
 import { Component } from "react";
 
 class PaginatePostButton extends Component {
     render () {
-        const {texto, loadPosts} = this.props;
+        const {texto, loadPosts, disabled} = this.props;
         return (
-            <button onClick={loadPosts}>
+            <button 
+                className='button'
+                onClick={loadPosts}
+                disabled={disabled}
+            >
                 {texto}
             </button>
         );
