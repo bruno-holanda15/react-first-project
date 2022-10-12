@@ -10,7 +10,10 @@ import PaginatePostButton from '../../components/PaginatePostButton';
 //component de classe
 class Home extends Component {
   state = {
-    posts: []
+    posts: [],
+    page: 0,
+    postsPerPage: 2,
+    allPosts: []
   };
 
   async componentDidMount() {
@@ -19,7 +22,20 @@ class Home extends Component {
 
   loadData = async () => {
     const postsAndPhotos = await loadPosts();
-    this.setState({posts: postsAndPhotos.slice(0,2)});
+
+    this.setState({
+      posts: postsAndPhotos.slice(0,2),
+      allPosts: postsAndPhotos
+    });
+  }
+
+  loadMorePosts = () => {
+    const {posts, page, postsPerPage, allPosts} = this.state;
+    const nextPage =  postsPerPage + page;
+    const nextPosts = allPosts.slice(nextPage, nextPage + postsPerPage);
+
+    posts.push(...nextPosts);
+    this.setState({ posts, page: nextPage });
   }
 
   render () {
@@ -28,7 +44,8 @@ class Home extends Component {
           <section className="container">
               <Posts posts={posts} />
               <PaginatePostButton
-                texto='Oloquinho'
+                texto='Load more posts'
+                loadPosts={this.loadMorePosts}
               />
           </section>
         );

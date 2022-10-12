@@ -2,9 +2,9 @@ import { Component } from "react";
 
 class PaginatePostButton extends Component {
     render () {
-        const {texto} = this.props;
+        const {texto, loadPosts} = this.props;
         return (
-            <button>
+            <button onClick={loadPosts}>
                 {texto}
             </button>
         );
