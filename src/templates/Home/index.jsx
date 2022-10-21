@@ -3,6 +3,7 @@ import './styles.css';
 import { Component } from 'react';
 
 import { Posts } from '../../components/Posts';
+import { PostTextInput } from '../../components/PostTextInput';
 import { loadPosts } from '../../utils/load-posts';
 import PaginatePostButton from '../../components/PaginatePostButton';
 
@@ -13,7 +14,8 @@ class Home extends Component {
     posts: [],
     page: 0,
     postsPerPage: 10,
-    allPosts: []
+    allPosts: [],
+    searchValue: ''
   };
 
   async componentDidMount() {
@@ -38,22 +40,57 @@ class Home extends Component {
     this.setState({ posts, page: nextPage });
   }
 
-  render () {
-    const { posts, page, postsPerPage, allPosts } = this.state;
-    const noMorePosts = page + postsPerPage >= allPosts.length;
-    return (
-          <section className="container">
-              <Posts posts={posts} />
+  handleChange = (event) => {
+    const {value} = event.target;
+    this.setState({searchValue: value})
+  }
 
-              <div className='button-container'>
-                <PaginatePostButton
-                  texto='Load more posts'
-                  loadPosts={this.loadMorePosts}
-                  disabled={noMorePosts}
-                />
-              </div>
-          </section>
+  render () {
+    const { posts, page, postsPerPage, allPosts, searchValue } = this.state;
+    const noMorePosts = page + postsPerPage >= allPosts.length;
+    
+    const filteredPosts = !!searchValue ? 
+      allPosts.filter((post) => {
+        return post.title.toLowerCase().includes(
+          searchValue.toLowerCase()
         );
+      })
+      :
+      posts;
+
+    return (
+      <section className="container">
+
+        <div className='search-container'>
+          {!!searchValue && (
+            <h1>Search value: {searchValue}</h1>
+          )}
+
+          <PostTextInput 
+            handleChange={this.handleChange}
+            searchValue={searchValue}
+          />
+        </div>
+
+        {filteredPosts.length > 0 && (
+          <Posts posts={filteredPosts} />
+        )}
+
+        {filteredPosts.length === 0 && (
+          <h2>Não existem posts</h2>
+        )}
+
+        <div className='button-container'>
+          {!searchValue && (
+            <PaginatePostButton
+              texto='Load more posts'
+              loadPosts={this.loadMorePosts}
+              disabled={noMorePosts}
+            />
+          )}
+        </div>
+      </section>
+    );
   }
 }
 
